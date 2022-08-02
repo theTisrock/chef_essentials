@@ -1,0 +1,6 @@
+{
+	"run_list": [ "recipe[udemy_demo]" ],
+	"udemy_demo": {
+		"companyName": "Attribute from run-list"
+	}
+}

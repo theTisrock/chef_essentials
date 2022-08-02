@@ -23,3 +23,13 @@ template 'products page' do
 end
 
 
+cookbook_file 'static file' do
+  path '/var/www/html/webpage.html'
+  source 'webpage.html'
+  action :create
+  mode '0755'
+  owner 'ubuntu'
+  group 'ubuntu'
+end
+
+

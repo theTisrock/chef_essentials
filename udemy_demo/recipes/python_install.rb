@@ -8,7 +8,7 @@ template 'python install' do
   group 'ubuntu'
   mode '0755'
   variables ({
-    'pythonVersion' => '3.10.5',
+    'pythonVersion' => node.default['udemy_demo']['python_version'],
   })
 end
 

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# get python build dependencies
+apt-get install -y build-essential libssl-dev libffi-dev python3-dev bzip2 gcc
+
+# get python
+wget https://www.python.org/ftp/python/<%= @pythonVersion %>/Python-<%= @pythonVersion %>.tar.xz
+tar -xf Python-<%= @pythonVersion %>.tar.xz -C .
+
+# build python
+cd Python-<%= @pythonVersion %> && ./configure
+make
+#make test
+make install
+
+# cleanup
+rm -rf /Python-<%= @pythonVersion %>.tar.xz /Python-<%= @pythonVersion %>

@@ -6,4 +6,4 @@
 
 include_recipe "udemy_demo::webserver"
 include_recipe "udemy_demo::content"
-
+include_recipe "udemy_demo::python_install"

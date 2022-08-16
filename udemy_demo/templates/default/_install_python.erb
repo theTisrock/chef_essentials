@@ -1,0 +1,36 @@
+#!/bin/bash
+
+
+# To change the Python 3 version, see attributes/default.rb
+PYTHON_VERSION="$(/usr/local/bin/python3 --version)"
+EXPECTED_PYTHON_VERSION="Python <%= @python_version %>"
+FORCE=<%= @force_build %>
+
+
+if [ "$FORCE" == "true" ] || [ "$PYTHON_VERSION" != "$EXPECTED_PYTHON_VERSION" ]
+then
+    # install openssl 1.1.1
+    cd /usr/src/
+    wget <%= @openssl_url %><%= @openssl_resource %>.tar.gz
+    tar -xvf <%= @openssl_resource %>.tar.gz -C .
+    rm -rf <%= @openssl_resource %>.tar.gz <%= @openssl_resource %>.tar.gz.*
+    cd <%= @openssl_resource %>
+    ./config shared --prefix=/usr/local/
+    make
+    make install
+    mkdir lib
+    cp ./*.{so,so.1.0,so.1.1,so.1.1.1,so.1.0.0,so.1.1.0,pc,a,map} ./lib
+
+    # install python 3
+    cd /usr/src/
+    wget <%= @python_url %><%= @python_version %>/Python-<%= @python_version %>.tar.xz
+    tar -xf Python-<%= @python_version %>.tar.xz -C .
+    rm -rf Python-<%= @python_version %>.tar.xz Python-<%= @python_version %>.tar.xz.*
+    cd Python-<%= @python_version %> && ./configure --with-openssl=/usr/src/<%= @openssl_resource %>
+    make
+    make install
+    rm -rf /usr/src/Python-<%= @python_version %>
+else
+    echo "That version of Python has already been installed. Aborting (re)installation."
+fi
+
